@@ -1,5 +1,18 @@
+# Creating my first Workflow
 name: Danielle awesome's approval workflow
+# Choose the event
+## more events on https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on: pull_request_review
+# This Job will use an action that adds a label to any pull requests after a preset number of approvals. These labels could be used as a visual indicator to your team that something is ready to merge, or even as a way to use other actions or tools to automatically merge pull requests when they receive the required number of approvals.
 jobs:
   labelWhenApproved:
     runs-on: ubuntu-latest
+    steps:
+    - name: Label when approved
+    # Using the community action to automate part of the review approval process
+      uses: pullreminders/label-when-approved-action@master
+      env:
+        APPROVALS: "2"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ADD_LABEL: "approved"
+        REMOVE_LABEL: "awaiting%20review"
